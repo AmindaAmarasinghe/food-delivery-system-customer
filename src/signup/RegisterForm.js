@@ -1,7 +1,9 @@
 import Button from 'react-bootstrap/Button';
 import React from "react";
 import  { Navigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
+const salt = bcrypt.genSaltSync(10);
 class RegisterForm extends React.Component{
 
     constructor(props) {
@@ -73,29 +75,31 @@ class RegisterForm extends React.Component{
         if(this.validate()){
             try{
                 event.preventDefault();
+                const hashedPassword = bcrypt.hashSync(this.state.password, '$2a$10$CwTycUXWue0Thq9StjUM0u');
                 let messageBody=JSON.stringify({
-                fname: this.state.fname,
-                lname: this.state.lname,  
-                email: this.state.email,
-                password: this.state.password,
-                city: this.state.city
+                    fname: this.state.fname,
+                    lname: this.state.lname,  
+                    email: this.state.email,
+                    password: hashedPassword,
+                    city: this.state.city
                 });
                 console.log(messageBody);
     
-                let res = await fetch("http://localhost:8080/api/v1/set_data", {
+                let res = await fetch("http://localhost:8080/api/v1/setCustomer", {
                 method: "POST",
                 body: messageBody,
                 mode:'cors',
                 headers:{
                     'Accept': 'application/json, text/plain',
-                    'Content-Type': 'application/json;charset=UTF-8'
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin':'*'
                 }
                 });
         
-                //let resJson = await res.json();
+                let resJson = await res.json();
                 if (res.status === 200) {
                      //redirect to login
-                    return <Navigate to='/login'  />
+                     window.location.assign('/login');
     
                 } else {
     

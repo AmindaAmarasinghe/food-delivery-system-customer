@@ -22,20 +22,24 @@ class ForgotPassword extends React.Component{
           });
           console.log(messageBody);
 
-          let res = await fetch("http://localhost:8080/api/v1/forgot_pwd", {
+          let res = await fetch("http://localhost:8080/api/v1/reset_password_otp", {
             method: "POST",
             body: messageBody,
             mode:'cors',
             headers:{
               'Accept': 'application/json, text/plain',
-              'Content-Type': 'application/json;charset=UTF-8'
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin':'*'
             }
           });
-    
-          //let resJson = await res.json();
+          console.log(messageBody);
+          let resJson = await res.json();
           if (res.status === 200) {
-            
-
+            console.log(resJson.key);
+            if(resJson.is_successful==="true"){
+                let otp=resJson.code;
+                window.location.assign('/reset_pwd?otp='+otp+"&email="+this.state.email);
+            }
           } else {
 
           }

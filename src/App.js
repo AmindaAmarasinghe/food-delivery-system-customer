@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './Home/Home';
 import ForgotPassword from './login/ForgotPassword';
 import PasswordReset from './login/PasswordReset';
+import CustomerDash from './Home/CustomerDash';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <NavBar />
         <Routes>
             <Route path="" element={<Home />} />
-            <Route path="home" element={<Home />} />
+            <Route path="home" element={<CustomerDash />} />
             <Route path="login" element={<LoginForm />} />
             <Route path="register" element={<RegisterForm />} />
             <Route path="forgot_pwd" element={<ForgotPassword />} />

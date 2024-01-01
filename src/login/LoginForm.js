@@ -1,7 +1,10 @@
 import Button from 'react-bootstrap/Button';
 import React from "react";
 import {useRef} from 'react';
+import  { Navigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
+const salt = bcrypt.genSaltSync(10);
 class LoginForm extends React.Component{
     
     constructor(props) {
@@ -23,28 +26,34 @@ class LoginForm extends React.Component{
         //alert('Form was submitted');
         try{
           event.preventDefault();
+          const hashedPassword = bcrypt.hashSync(this.state.password, '$2a$10$CwTycUXWue0Thq9StjUM0u');
           let messageBody=JSON.stringify({
             email: this.state.email,
-            password: this.state.password,
+            password: hashedPassword
           });
           console.log(messageBody);
 
-          let res = await fetch("http://localhost:8080/api/v1/set_data", {
+          let res = await fetch("http://localhost:8080/api/v1/login", {
             method: "POST",
             body: messageBody,
             mode:'cors',
-            headers:{
-              'Accept': 'application/json, text/plain',
-              'Content-Type': 'application/json;charset=UTF-8'
-            }
-          });
+                headers:{
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin':'*'
+                }
+                });
     
-          //let resJson = await res.json();
+          let resJson = await res.json();
           if (res.status === 200) {
-            
-
+            console.log(resJson.key);
+            if(resJson.key==="value1"){
+                window.location.assign('/home');
+            }else{
+                alert('your email or password is invalid!!!');
+            }
           } else {
-
+            
           }
           
         } catch (err) {
@@ -132,7 +141,7 @@ class LoginForm extends React.Component{
                         <div className="row mt-3">
                             <br />
                             <div className="col text-right">
-                            Already have an account? <a href="/register">Sign up</a>
+                            Don't have an account? <a href="/register">Sign up</a>
                             </div>
                             <div className="col text-right">
                             Forgot password? <a href="/forgot_pwd">click here</a>
