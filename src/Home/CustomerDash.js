@@ -1,16 +1,18 @@
 
 import React from "react";
+import RestuarantList from "./RestuarantList";
 import "./Home.css";
 
 
 class CustomerDash extends React.Component{
     constructor(props) {
         super(props);
-        this.state={search:null}
+        this.state={search:""}
         this.handleChange=this.handleChange.bind(this);
     }
-    handleChange(event){
-       
+    handleChange(e){
+        var lowerCase = e.target.value.toLowerCase();
+        this.setState({search: lowerCase});
     }
     render(){
         return(
@@ -30,6 +32,7 @@ class CustomerDash extends React.Component{
                     onChange={this.handleChange}
                     
                 />
+                <RestuarantList input={this.state.search} />
                 <div className="col-3"></div>
                 </div>
             </div>
