@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import React, { useState, useReducer, useEffect } from "react";
 import {useRef} from 'react';
-import  { Navigate } from 'react-router-dom';
+import  { Navigate, useNavigate } from 'react-router-dom';
 import bcrypt from 'bcryptjs';
 import { useAppContext } from '../AppContext';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,23 +22,27 @@ export function Logout(){
     const [password, setPassword] = useState('');
     //const [current, dispatch] = useReducer(appReducer, store.getState());
     const [isLoggedV, setIsLoggedV] = useState(false);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         const isLogged = JSON.parse(localStorage.getItem('isLogged'));
+        console.log(isLoggedV)
         if (isLogged) {
-            setIsLoggedV(true)
-        
+            setIsLoggedV(true);
         }
         if (!isLoggedV) {
             localStorage.setItem('isLogged', false);
+            
         }
     }, [isLoggedV]);
 
     
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmitLogout = (e) => {
+        //e.preventDefault();
         setIsLoggedV(false);
-        window.location.assign('/login');
+        //navigate('/login');
+        window.location.assign('/');
+        localStorage.clear()
     }
     const cancelLogout = async (e) => {
         e.preventDefault();
@@ -56,11 +60,11 @@ export function Logout(){
                     <div class="card-body p-md-5">
                         <div class="row justify-content-center align-items-center">
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                                <p class="text-center h1 fw-bold mb-5 mt-4">Are you want to logout?</p>
+                                <p class="text-center h1 fw-bold mb-5 mt-4">You are logged in. Are you want to logout?</p>
                                 
-                                <div className="row mt-3">
+                                <div className="row mt-3 ">
                                     <div className="col text-right actionButtons"><Button variant="secondary"
-                                    size="sm" onClick={cancelLogout}>Cancel</Button><Button size="sm" onClick={handleSubmit}>Logout</Button></div>
+                                    size="sm" onClick={cancelLogout} style={{margin:'5px'}}>Cancel</Button><Button size="sm" style={{margin:'5px'}} onClick={handleSubmitLogout}>Logout</Button></div>
                                 </div>
                                 
                             </div>
@@ -89,12 +93,13 @@ export function LoginForm(){
     const [password, setPassword] = useState('');
     //const [current, dispatch] = useReducer(appReducer, store.getState());
     const [isLoggedV, setIsLoggedV] = useState(false);
-
+    //const navigate = useNavigate();
+    const [username, setUsername] = useState('');
     useEffect(() => {
         if (isLoggedV) {
             localStorage.setItem('isLogged', true);
             localStorage.setItem('email', email);
-            localStorage.setItem('username', email);
+            localStorage.setItem('username', username);
         }
     }, [isLoggedV]);
 
@@ -127,11 +132,15 @@ export function LoginForm(){
           if (res.status === 200) {
             console.log(resJson.key);
             console.log(localStorage.getItem("isLogged"))
-            if(resJson.key==="value1"){
+            if(resJson.key==="success"){
                 //store.dispatch(login());
                 // await handleLogin()
                 // console.log(store.getState().auth.isLoggedIn)
+                setUsername(resJson.username);
+                console.log(username)
+                localStorage.setItem('username', username);
                 setIsLoggedV(true);
+
                 //console.log(localStorage.setItem("isLogged",true))
                 console.log(localStorage.getItem("isLogged"))
                 window.location.assign('/home');
@@ -140,7 +149,7 @@ export function LoginForm(){
                 alert('your email or password is invalid!!!');
             }
           } else {
-            
+            alert("something went wrong!!! \n Application is not responding");
           }
           
         } catch (err) {
@@ -203,7 +212,7 @@ export function LoginForm(){
                                 <div className="col text-right actionButtons">
                                 <Button
                                     variant="secondary"
-                                    size="sm"
+                                    size="sm" style={{margin:'5px'}}
                                     onClick={()=>{
                                         resetForm();
                                         setEmail(null);
@@ -215,7 +224,7 @@ export function LoginForm(){
 
                                 <Button
                                     variant="primary"
-                                    size="sm"
+                                    size="sm" style={{margin:'5px'}}
                                     type='submit'
                                     onClick={ handleSubmit }
                                 >

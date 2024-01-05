@@ -4,17 +4,19 @@ import React from "react";
 class ForgotPassword extends React.Component{
     constructor(props){
         super(props);
-        this.state={email:null};
+        this.state={email:null, message:""};
         this.handleSubmit=this.handleSubmit.bind(this);
         this.handleEmailChange=this.handleEmailChange.bind(this);
         
     }
+   
     handleEmailChange(event){
         this.setState({email: event.target.value});
     }
 
     async handleSubmit(event) {
         //alert('Form was submitted');
+        this.setState({message: "Your request is being processing. please wait !!!"});
         try{
           event.preventDefault();
           let messageBody=JSON.stringify({
@@ -63,7 +65,7 @@ class ForgotPassword extends React.Component{
                     <div class="row justify-content-center">
                     <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                         <p class="text-center h1 fw-bold mb-5 mt-4">Reset Password</p>
-                        <p>Please enter the email address that you used to register, and we will send you a link to reset your password via Email.</p>
+                        <p>Please enter the email address that you used to register, and we will send you an OTP to reset your password via Email.</p>
                         <form onSubmit={this.handleSubmit}>
                    
                         <div className="row mt-3">
@@ -98,11 +100,12 @@ class ForgotPassword extends React.Component{
                         <div className="row mt-3">
                             <br />
                             <div className="col text-right">
-                            return to <a href="/reset_pwd">Sign in</a>
+                            return to <a href="/login">Sign in</a>
                             </div>
                             
                         </div>
                         </form>
+                        <h3>{this.state.message}</h3>
                     </div>
                     <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
                         <img

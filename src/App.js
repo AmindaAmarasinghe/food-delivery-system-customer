@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import NavBar from './Header/NavBar';
+import NavBar from './components/Header/NavBar';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import RegisterForm from './signup/RegisterForm';
 import Login from './login/LoginForm';
@@ -25,6 +25,7 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<RegisterForm />} />
             <Route path="forgot_pwd" element={<ForgotPassword />} />
+            <Route path="change_pwd" element={<ForgotPassword />} />
             <Route path="reset_pwd" element={<PasswordReset />} />
             <Route path="profile" element={<Profile />} />
         </Routes>

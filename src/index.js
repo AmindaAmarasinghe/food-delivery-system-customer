@@ -5,15 +5,10 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { legacy_createStore as createStore } from 'redux';
 import reportWebVitals from './reportWebVitals';
+import cartReducer from './reducer'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-export const store = createStore(() => ({
-  auth: 
-    {
-      isLoggedIn: false,
-    }
-  
-}));
+export const store = createStore(cartReducer);
 root.render(
   <React.StrictMode>
     <Provider store={store}>

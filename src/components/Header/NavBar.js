@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react"
 import './NavBar.css';
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
-import { useAppContext } from '../AppContext';
-import {store} from '../index.js';
+//import { useAppContext } from '../AppContext';
+//import {store} from '../index.js';
 import { connect } from 'react-redux';
 
 export function RenderAuthButton (){
   const auth = useSelector(state => state.auth);
-  const { isLoggedInRef, login, logout } = useAppContext();
-  const logged = useSelector(() => store.getState().auth.isLoggedIn);
+  //const { isLoggedInRef, login, logout } = useAppContext();
+  //const logged = useSelector(() => store.getState().auth.isLoggedIn);
   const [isLoggedV, setIsLoggedV] = useState(false);
   useEffect(() => {
     const isLogged = JSON.parse(localStorage.getItem('isLogged'));
@@ -20,17 +20,22 @@ export function RenderAuthButton (){
   }, [isLoggedV]);
   console.log(isLoggedV)
   if (isLoggedV) {
-    return <Link to="/profile" style={{textDecoration:"none"}}>
+    return (
     <div className="row">
-      <div className="col-6 d-flex justify-content-end"><img
-      src="/img/user.svg"
-      class="img-fluid"
-      alt=""
-      width={'70px'}
-      /></div>
-      <div className="col-6 d-flex justify-left align-items-center text-white"><h5>{localStorage.getItem('username')}</h5></div>
+      <div className="col-6 ">
+      <Link to="/profile" style={{textDecoration:"none"}}>
+      <div className="row d-flex justify-content-end">
+        <div className="col-6"><img
+        src="/img/profile.png"
+        class="img-fluid"
+        alt=""
+        width={'70px'}
+        /></div>
+      <div className="col-4 d-flex justify-left align-items-center text-white"><h5>{localStorage.getItem('username')}</h5></div>
+      </div></Link></div>
+      <div className="col-2 d-flex justify-left align-items-center "><Link to="/login" style={{textDecoration:"none"}}><div className="col-2 text-white"><img src="./img/logout.png" width={'30px'} /></div></Link></div>
     </div>
-    </Link>
+    );
   } else {
     return <></>;
   }

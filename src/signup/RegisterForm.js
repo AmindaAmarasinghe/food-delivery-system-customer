@@ -19,6 +19,12 @@ class RegisterForm extends React.Component{
         this.resetForm=this.resetForm.bind(this);
     }
 
+    componentDidMount(){
+        if(localStorage.getItem('isLogged')){
+            window.location.assign('/login')
+        }
+    }
+
     handleFnameChange(event){
         this.setState({fname: event.target.value});
     }
@@ -237,7 +243,7 @@ class RegisterForm extends React.Component{
                             <div className="col text-right actionButtons">
                             <Button
                                 variant="secondary"
-                                size="sm"
+                                size="sm" style={{margin:'5px'}}
                                 onClick={this.resetForm}
                             >
                                 Clear
@@ -245,7 +251,7 @@ class RegisterForm extends React.Component{
 
                             <Button
                                 variant="primary"
-                                size="sm"
+                                size="sm" style={{margin:'5px'}}
                                 onClick={this.handleSubmit}
                             >
                                 Register

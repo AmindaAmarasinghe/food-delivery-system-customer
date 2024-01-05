@@ -8,7 +8,7 @@ class Profile extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state={fname:null, lname:null, email:localStorage.getItem("email"), city:null, errors:[]}
+        this.state={fname:null, lname:null, email:localStorage.getItem("email"), city:null, errors:[], initFname: null, initLname: null, initCity:null, saveDisable: true}
         // Listen to storage event
         window.addEventListener('storage', (e) => this.storageChanged(e));
 
@@ -25,8 +25,9 @@ class Profile extends React.Component{
             this.setState({isLoggedIn: e.newValue})
         }
     }
+    
     async componentDidMount() {
-        this.setState({fname: "first name", lname: "last name", city: "city"})
+        //this.setState({fname: "first name", lname: "last name", city: "city"})
         try {
             let email = localStorage.getItem('email')
             let res = await fetch("http://localhost:8080/api/v1/getCustomer?email="+email, {
@@ -41,10 +42,11 @@ class Profile extends React.Component{
     
             let resJson = await res.json();
             if (res.status === 200) {
-                this.setState({fname: resJson.fname, lname: resJson.lname, city: resJson.city})
+                this.setState({fname: resJson.fname, lname: resJson.lname, city: resJson.city, initFname: resJson.fname, initLname: resJson.lname, initCity: resJson.city})
 
             } else {
-
+                alert('Something went wrong!!!');
+                window.location.assign('/home');
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -52,16 +54,16 @@ class Profile extends React.Component{
     }
     
     handleFnameChange(event){
-        this.setState({fname: event.target.value});
+        this.setState({fname: event.target.value, saveDisable: false});
     }
     handleLnameChange(event){
-        this.setState({lname: event.target.value});
+        this.setState({lname: event.target.value, saveDisable: false});
     }
     handleCityChange(event){
-        this.setState({city: event.target.value});
+        this.setState({city: event.target.value, saveDisable: false});
     }
     async resetForm(){
-        this.setState({fname: "first name", lname: "last name", city: "city"})
+        this.setState({fname: this.state.initFname, lname: this.state.initLname, city: this.state.initCity, saveDisable: true})
     
     }
     
@@ -105,6 +107,9 @@ class Profile extends React.Component{
     
 
     render() {
+        if(!localStorage.getItem('isLogged')){
+            window.location.assign('/login');
+        }
         return(
         <>   
         <section
@@ -171,15 +176,15 @@ class Profile extends React.Component{
                             <Button
                                 variant="secondary"
                                 size="sm"
-                                onClick={this.resetForm}
+                                onClick={this.resetForm} style={{margin:'5px'}}
                             >
                                 Clear
                             </Button>
 
                             <Button
                                 variant="primary"
-                                size="sm"
-                                onClick={this.handleSubmit}
+                                size="sm" disabled={this.state.saveDisable}
+                                onClick={this.handleSubmit} style={{margin:'5px'}}
                             >
                                 Save
                             </Button>
@@ -193,6 +198,20 @@ class Profile extends React.Component{
                             </div>
                         </div>
                         </form>
+                        <div className="row mt-3">
+                            <br />
+                            <div className="col text-right">
+                            <Button variant="warning"
+                                size="sm" onClick={()=>{window.location.assign('/change_pwd')}}>Change password</Button>
+                            </div>
+                        </div>
+                        <div className="row mt-3">
+                            <br />
+                            <div className="col text-right">
+                            <Button variant="warning"
+                                size="sm" onClick={()=>{window.location.assign('/login')}}>Logout</Button>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2" style={{display: "flex", justifyContent:"center"}}>
                         <img

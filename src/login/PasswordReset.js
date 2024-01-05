@@ -113,6 +113,8 @@ class PasswordReset extends React.Component{
             } catch (err) {
             console.log(err);
             }
+        }else{
+          alert('OTP is invalid');
         }
         
       }
@@ -165,6 +167,7 @@ class PasswordReset extends React.Component{
                                 disabled={this.state.disable} 
                                 className="form-control"
                                 value={this.state.newPassword}
+                                type='password'
                                 onChange={this.handlePwdChange}
                                 
                             />
@@ -180,6 +183,7 @@ class PasswordReset extends React.Component{
                             <input
                                 id="rePwd"
                                 name="rePwd"
+                                type='password'
                                 disabled={this.state.disable} 
                                 className="form-control"
                                 value={this.state.repassword}
@@ -191,11 +195,17 @@ class PasswordReset extends React.Component{
                         </div>
                         <div className="row mt-3">
                             <div className="col text-right actionButtons">
-                            
+                            <Button
+                                variant="secondary"
+                                size="sm" style={{margin:'5px'}}
+                                onClick={()=>{window.location.assign('/login')}}
+                            >
+                                cancel
+                            </Button>
 
                             <Button
                                 variant="primary"
-                                size="sm"
+                                size="sm" style={{margin:'5px'}}
                                 onClick={this.handleSubmit}
                             >
                                 Reset my password
