@@ -2,45 +2,45 @@
     "id": "1",
     "text": "Keels",
     "address": "No. 56, Main street, Dehiwala", 
-    "menu":"[{\"id\": \"1\",\"title\": \"cheese kottu\", \"price\":\"600\"},{\"id\":\"2\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"1\",\"title\": \"cheese kottu\", \"price\":\"500\"},{\"id\":\"2\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
 }, {
     "id": "2",
     "text": "Cargils",
     "address": "No. 8, Main street, Maharagama",
-    "menu":"[{\"id\": \"3\",\"title\": \"Ramen\", \"price\":\"600\"},{\"id\": \"4\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"3\",\"title\": \"Ramen\", \"price\":\"450\"},{\"id\": \"4\",\"title\": \"Noodles\",\"price\":\"350\"}]"
 }, {
     "id": "3",
     "text": "New taste food store",
     "address": "No. 76A, Main street, Nugegoda",
-    "menu":"[{\"id\": \"4\",\"title\": \"Roti canai\", \"price\":\"600\"},{\"id\": \"4\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"5\",\"title\": \"Roti canai\", \"price\":\"250\"},{\"id\": \"6\",\"title\": \"Pasta\",\"price\":\"400\"}]"
 }, {
     "id": "4",
     "text": "Dynamobox",
     "address": "No. 90, Main street, Avissawella",
-    "menu":"[{\"id\": \"4\",\"title\": \"cheese kottu \", \"price\":\"600\"},{\"id\": \"4\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"7\",\"title\": \"cheese kottu \", \"price\":\"520\"},{\"id\": \"8\",\"title\": \"Chicken rice & curry\",\"price\":\"550\"}]"
 }, {
     "id": "5",
     "text": "Pasta shop",
     "address": "No. 26, Main street, Ratnapura",
-    "menu":"[{\"id\": \"4\",\"title\": \"cheese kottu\", \"price\":\"600\"},{\"id\": \"4\",\"title\": \"Roti canai\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"9\",\"title\": \"Egg rice\", \"price\":\"360\"},{\"id\": \"10\",\"title\": \"Roti canai\",\"price\":\"200\"}]"
 }, {
     "id": "6",
     "text": "Top taste",
     "address": "No. 90, Main street, Kandy",
-    "menu":"[{\"id\": \"4\",\"title\": \"cheese kottu \", \"price\":\"600\"},{\"id\": \"4\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"11\",\"title\": \"Pasta \", \"price\":\"390\"},{\"id\": \"12\",\"title\": \"Chicken rice & curry\",\"price\":\"550\"}]"
 }, {
     "id": "7",
     "text": "Lucky food store",
     "address": "No. 344, Main street, Kegalle",
-    "menu":"[{\"id\": \"4\",\"title\": \"cheese kottu\", \"price\":\"600\"},{\"id\": \"4\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"13\",\"title\": \"cheese kottu\", \"price\":\"490\"},{\"id\": \"14\",\"title\": \"chicken kottu\",\"520\":\"600\"}]"
 }, {
     "id": "8",
-    "text": "Cake shop lanka",
+    "text": "My food shop lanka",
     "address": "No. 5, Main street, Gampaha",
-    "menu":"[{\"id\": \"4\",\"title\": \"cheese kottu\", \"price\":\"600\"},{\"id\": \"4\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"15\",\"title\": \"Burger\", \"price\":\"300\"},{\"id\": \"16\",\"title\": \"Chicken rice & curry\",\"price\":\"490\"}]"
 }, {
     "id": "10",
     "text": "Layo shop",
     "address": "No. 94, Main street, Kurunegala",
-    "menu":"[{\"id\": \"4\",\"title\": \"cheese kottu\", \"price\":\"600\"},{\"id\": \"4\",\"title\": \"Chicken rice & curry\",\"price\":\"600\"}]"
+    "menu":"[{\"id\": \"17\",\"title\": \"cheese kottu\", \"price\":\"490\"},{\"id\": \"18\",\"title\": \"chicken fried rice\",\"price\":\"480\"}]"
 }] 

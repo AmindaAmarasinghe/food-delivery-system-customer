@@ -23,6 +23,7 @@ export function Logout(){
     //const [current, dispatch] = useReducer(appReducer, store.getState());
     const [isLoggedV, setIsLoggedV] = useState(false);
     const [username, setUsername] = useState('');
+    const [customer_id, setCustomer_id] = useState(null);
 
     useEffect(() => {
         const isLogged = JSON.parse(localStorage.getItem('isLogged'));
@@ -95,6 +96,7 @@ export function LoginForm(){
     const [isLoggedV, setIsLoggedV] = useState(false);
     //const navigate = useNavigate();
     const [username, setUsername] = useState('');
+    const [customer_id, setCustomer_id] = useState(null);
     useEffect(() => {
         if (isLoggedV) {
             localStorage.setItem('isLogged', true);
@@ -102,6 +104,7 @@ export function LoginForm(){
             localStorage.setItem('username', username);
             localStorage.setItem('longitude', '0987');
             localStorage.setItem('latitude', '9751');
+            localStorage.setItem('customer_id',customer_id)
         }
     }, [isLoggedV]);
 
@@ -139,8 +142,10 @@ export function LoginForm(){
                 // await handleLogin()
                 // console.log(store.getState().auth.isLoggedIn)
                 setUsername(resJson.username);
+                setCustomer_id(resJson.customer_id);
                 console.log(username)
                 localStorage.setItem('username', username);
+                localStorage.setItem('customer_id',resJson.customer_id);
                 setIsLoggedV(true);
 
                 //console.log(localStorage.setItem("isLogged",true))

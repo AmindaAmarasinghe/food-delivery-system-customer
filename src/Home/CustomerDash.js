@@ -5,8 +5,9 @@ import RestuarantCard from "../components/RestaurantCard/RestautantCard"
 import "./Home.css";
 import FoodCard from "../components/FoodCard/FoodCard"
 import { Button } from "react-bootstrap";
-import Popup from "../components/Popup/Popup";
+import Cart from "../components/Popup/Popup";
 import { Badge } from 'antd';
+import FeedbackForm from "../components/Popup/FeedbackForm";
 import { useDispatch, useSelector } from 'react-redux';
 
 export function CustomerDash(){
@@ -15,6 +16,7 @@ export function CustomerDash(){
     const [restaurant_id, setRestaurant_id]=useState(null)
     const [restaurant, setRestaurant]= useState("Check menus of your favourite restaurants") //selected restaurant
     const [restaurantCart, setRestaurantCart] = React.useState(null); //restaurant corresponding to the cart
+    const [restaurantCartId, setRestaurantCartId] = React.useState(null);
     const [menu, setMenu] = useState([])
     const [popupOpen, setPopupOpen] = useState(false)
     const count = useSelector((data) => data.items.length);
@@ -26,14 +28,15 @@ export function CustomerDash(){
         setRestaurant_id(restaurant_id);
 
     };
-    const chooseRestaurantCart=(name)=>{
+    const chooseRestaurantCart=(name, restaurant_cart_id)=>{
         setRestaurantCart(name);
-        //console.log('selected restaurant: ', restaurant);
+        setRestaurantCartId(restaurant_cart_id);
+        // console.log('selected restaurant: ', restaurant);
         // console.log('selected restaurantCart: ', restaurantCart);
         // console.log('comparing: ',compareRestaurant())
     }
     const compareRestaurant=()=>{
-        if(restaurant===restaurantCart){
+        if(restaurant_id===restaurantCartId){
             return true;
         }else{
             return false;
@@ -54,7 +57,7 @@ export function CustomerDash(){
         window.location.assign('/login');
     }
     if(popupOpen){
-        return(<Popup closeFunction={dialogclose} restaurantCart={restaurantCart} classT={this}/>);
+        return(<Cart closeFunction={dialogclose} restaurantCart={restaurantCart} restaurantCartId={restaurantCartId} classT={this}/>);
     }
 
     return(
@@ -81,6 +84,7 @@ export function CustomerDash(){
         </div>
         <div className="col-md-6 col-sm-12" style={{paddingTop:'30px'}}>
             <h4 className="bg-info p-2" style={{boxShadow: '0 8px 6px 0 rgba(0,0,0,0.2), 0 6px 8px 0 rgba(0,0,0,0.19)'}}>{restaurant}</h4>
+            <FeedbackForm FeedbackFormOpen={true}/>
             {(menu.length==0) && <div className="row d-flex justify-content-center"><img className="col-8" src="img/food_shop.avif"></img><h5 className="m-4 text-success">Top rated restaurats are here</h5><img className="col-8" src="img/Restaurants.png" /></div>}
             <ul className="row" style={{textDecoration:'none', paddingTop:'50px', textAlign:'left', listStyle:'none'}}>
                 {menu.map((item) => (

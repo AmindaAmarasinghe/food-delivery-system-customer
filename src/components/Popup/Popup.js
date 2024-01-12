@@ -14,6 +14,7 @@ import Slide from '@mui/material/Slide';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import FeedbackForm from './FeedbackForm.js'
 
 import {store} from '../../index';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Popup({closeFunction, classT, restaurantCart}) {
+export default function Cart({closeFunction, classT, restaurantCart, restaurantCartId}) {
   const [open, setOpen] = React.useState(true);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const itemList = useSelector((data) => data);
@@ -30,6 +31,8 @@ export default function Popup({closeFunction, classT, restaurantCart}) {
   const [ordered, setOrdered] = React.useState(false);
   const dispatch = useDispatch();
   const [messages, setMessages] = React.useState([]);
+
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -40,18 +43,25 @@ export default function Popup({closeFunction, classT, restaurantCart}) {
         let response = await fetch('http://localhost:8080/api/v1/getStatus');
         if (response.ok) {
           let data = await response.json();
-          
+          //dispatch({type:'UPDATE_ORDER', payload:{'order_id':1,'order_status':'DELIVERED'}})
           //setMessages(data);
           
           console.log(data)
-          
-          await data.map(entry=>{
-            if(entry!==null)
-            {
+          if(data.length>0){
+            await data.map(entry=>{
+              var orderIdnumb = entry.orderId.match(/\d/g);
+              orderIdnumb = orderIdnumb.join("")
+               console.log({type:'UPDATE_ORDER', payload:{'order_id':parseInt(orderIdnumb),'order_status':entry.status}})
+               dispatch({type:'UPDATE_ORDER', payload:{'order_id':parseInt(orderIdnumb),'order_status':entry.status}})
+            });
+          }
+          // await data.map(entry=>{
+          //   if(entry!==null)
+          //   {
               
-              dispatch({type:'UPDATE_ITEM', payload:{'food_id':entry.food_id,'title':entry.title, 'price':entry.price, 'restaurant_id' : entry.restaurant_id, 'order_status':entry.order_status}})
-            }
-          })
+          //     dispatch({type:'UPDATE_ITEM', payload:{'food_id':entry.food_id,'title':entry.title, 'price':entry.price, 'restaurant_id' : entry.restaurant_id, 'order_status':entry.order_status}})
+          //   }
+          // })
           
         } else {
           console.error('Failed to fetch status');
@@ -107,10 +117,10 @@ export default function Popup({closeFunction, classT, restaurantCart}) {
 
       //order creation
       let orderMessageBody=JSON.stringify({
-        customer_id: 1,
-        restaurant_id:1,
+        customer_id: localStorage.getItem('customer_id').toString(),
+        restaurant_id:restaurantCartId,
       });
-
+      console.log(orderMessageBody)
       let resOrder = await fetch("http://localhost:8080/api/v1/setOrder", {
         method: "POST",
         body: orderMessageBody,
@@ -121,7 +131,7 @@ export default function Popup({closeFunction, classT, restaurantCart}) {
               'Access-Control-Allow-Origin':'*'
           }
       });
-      console.log(resOrder.status)
+      
       if (resOrder.status === 200) {
         let data = await resOrder.json();
         console.log(data);
@@ -137,22 +147,23 @@ export default function Popup({closeFunction, classT, restaurantCart}) {
         setOrdered(true)
         setResponse(""); 
 
-        await dispatch({type:'ORDER'})
+        await dispatch({type:'ORDER',payload:{'order_id':order_id}})
         console.log('After placing an order ',itemList);
-
+        setOpen(false);
+        setOpen(true);
         try{
           let messageBody=JSON.stringify({
-              restaurant_id:order_id.toString(),
+              restaurant_id:"RST-"+'001',
               customer:
               {
-                id:'1',
+                id:"CST-"+localStorage.getItem('customer_id').toString(),
                 name:localStorage.getItem('username'),
                 longitude:localStorage.getItem('longitude'),
                 latitude:localStorage.getItem('latitude'),
                 contact:"0725678945"
               },
               orders: {
-                order_id: order_id.toString(),
+                order_id: "ORD-"+order_id.toString(),
                 items:JSON.stringify(itemList.items)
               },
               timestamp: Date.now()
@@ -243,6 +254,7 @@ export default function Popup({closeFunction, classT, restaurantCart}) {
           </Toolbar>
         </AppBar>
         {(itemList.items.length==0) && <h5 className='text-center p-4'>No food items to order</h5>}
+        
         <List>
         {itemList.items.map((item) => (
           <>
@@ -259,20 +271,23 @@ export default function Popup({closeFunction, classT, restaurantCart}) {
         {itemList.ordered_items.map((item) => (
           <>
           <ListItem button>
-            <ListItemText primary={item.title} secondary={item.price}  />
-            {<>{(item.order_status==="Ordered") && <Button className='col-2 text-dark' style={{backgroundColor:'#e17ff5', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Ordered</Button>}
-            {(item.order_status==="Approved") && <Button className='col-2 text-dark' style={{backgroundColor:'#7fe5f5', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Approved</Button>}
-            {(item.order_status==="Processing") && <Button className='bg-primary col-2 text-white' style={{marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Processing</Button>}
-            {(item.order_status==="On Delivery") && <Button className='col-2 text-dark' style={{backgroundColor:'#baf57f', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >On Delivery</Button>}
-            {(item.order_status==="Delivered") && <Button className='bg-success col-2 text-white' style={{marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Delivered</Button>}</>}
+            <ListItemText primary={item.title} secondary={"Rs. "+item.price}  />
+            {<>{(item.order_status==="Ordered" || item.order_status==="ORDERED") && <Button className='col-2 text-dark' style={{backgroundColor:'#e17ff5', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Ordered</Button>}
+            {(item.order_status==="Approved"  || item.order_status==="ACCEPTED") && <Button className='col-2 text-dark' style={{backgroundColor:'#7fe5f5', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Approved</Button>}
+            {(item.order_status==="Processing" || item.order_status==="PROCESSING") && <Button className='bg-primary col-2 text-white' style={{marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Processing</Button>}
+            {(item.order_status==="On Delivery" || item.order_status==="ON DELIVERY") && <Button className='col-2 text-dark' style={{backgroundColor:'#baf57f', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >On Delivery</Button>}
+            {(item.order_status==="Delivered" || item.order_status==="DELIVERED") && <Button className='bg-success col-2 text-white' style={{marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Delivered</Button>}</>}
           </ListItem>
           <Divider />
           </>
         ))} 
         </List>
+        
         <h4 className='bg-warning text-center'>{response}</h4>
         <h4 className='bg-warning text-center'>{messages}</h4>
+
       </Dialog>
+      
     </React.Fragment>
   );
 }

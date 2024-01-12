@@ -32,9 +32,9 @@ export function FoodCard({id, title, price, restaurant_id, restaurant_, restaura
         
         if(count_==0 || restaurant_cart==null || compareRestaurant()){
           dispatch({type:'ADD_ITEM', payload:{'food_id':id,'title':title, 'price':price, 'order_status':'Added to cart', 'payment_status':'', 'quantity':1}});
-          console.log({type:'ADD_ITEM', payload:{"food_id":id,"title":title, "price":price, order_status:'Added to cart',payment_status:'', 'quantity':1}});
+          console.log({type:'ADD_ITEM', payload:{"food_id":id,"title":title,"order_id":null, "price":price, order_status:'Added to cart',payment_status:'', 'quantity':1}});
           //console.log('restaurant of food item: ', restaurant_);
-          await chooseRestaurantCart(restaurant_);
+          await chooseRestaurantCart(restaurant_, restaurant_id);
         }else{
           alert("please place the order for items in the cart before adding items from another restaurant");
           setPopupOpen(true)
@@ -52,6 +52,7 @@ export function FoodCard({id, title, price, restaurant_id, restaurant_, restaura
                 
             </div>
         </div>
+        
         <Dialog
           open={open}
           TransitionComponent={Transition}
