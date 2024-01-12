@@ -215,7 +215,7 @@ class Profile extends React.Component{
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2" style={{display: "flex", justifyContent:"center"}}>
                         <img
-                        src="/img/Food-Delivery-768x768.png"
+                        src="/img/edit_pic.jpg"
                         className="img-fluid"
                         alt=""
                         width={'80%'}

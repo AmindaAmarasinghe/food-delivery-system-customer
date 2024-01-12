@@ -100,6 +100,8 @@ export function LoginForm(){
             localStorage.setItem('isLogged', true);
             localStorage.setItem('email', email);
             localStorage.setItem('username', username);
+            localStorage.setItem('longitude', '0987');
+            localStorage.setItem('latitude', '9751');
         }
     }, [isLoggedV]);
 
@@ -149,11 +151,12 @@ export function LoginForm(){
                 alert('your email or password is invalid!!!');
             }
           } else {
-            alert("something went wrong!!! \n Application is not responding");
+            alert("something went wrong!!! \nApplication is not responding");
           }
           
         } catch (err) {
           console.log(err);
+          alert("something went wrong!!! \nApplication is not responding");
         }
         //console.log(store.getState().auth.isLoggedIn)
     }

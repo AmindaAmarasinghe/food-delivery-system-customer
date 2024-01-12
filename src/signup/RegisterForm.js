@@ -8,14 +8,16 @@ class RegisterForm extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state={fname:null, lname:null, email:null, password:null, repassword:null, city:null, errors:[]}
+        this.state={fname:null, lname:null, email:null, password:null, repassword:null, longitude:null, latitude:null, contact:null, errors:[]}
         this.handleSubmit=this.handleSubmit.bind(this);
         this.handleFnameChange=this.handleFnameChange.bind(this);
         this.handleLnameChange=this.handleLnameChange.bind(this);
         this.handleEmailChange=this.handleEmailChange.bind(this);
         this.handlePwdChange=this.handlePwdChange.bind(this);
         this.handleRePwdChange=this.handleRePwdChange.bind(this);
-        this.handleCityChange=this.handleCityChange.bind(this);
+        this.handleLongChange=this.handleLongChange.bind(this);
+        this.handleLatChange=this.handleLatChange.bind(this);
+        this.handleContactChange=this.handleContactChange.bind(this);
         this.resetForm=this.resetForm.bind(this);
     }
 
@@ -34,8 +36,14 @@ class RegisterForm extends React.Component{
     handleEmailChange(event){
         this.setState({email: event.target.value});
     }
-    handleCityChange(event){
-        this.setState({city: event.target.value});
+    handleLongChange(event){
+        this.setState({longitude: event.target.value});
+    }
+    handleLatChange(event){
+        this.setState({latitude: event.target.value});
+    }
+    handleContactChange(event){
+        this.setState({contact: event.target.value});
     }
     handlePwdChange(event){
         this.setState({password: event.target.value});
@@ -87,7 +95,9 @@ class RegisterForm extends React.Component{
                     lname: this.state.lname,  
                     email: this.state.email,
                     password: hashedPassword,
-                    city: this.state.city
+                    longitude: this.state.longitude,
+                    latitude: this.state.latitude,
+                    contact: this.state.contact
                 });
                 console.log(messageBody);
     
@@ -126,7 +136,9 @@ class RegisterForm extends React.Component{
         this.setState({email: null});
         this.setState({password: null});
         this.setState({repassword: null});
-        this.setState({city: null});
+        this.setState({longitude: null});
+        this.setState({latitude: null});
+        this.setState({contact: null});
     }
     render() {
         return(
@@ -176,14 +188,14 @@ class RegisterForm extends React.Component{
                         <div className="row mt-3">
                             <div className="col text-left">
                             <label htmlFor="city" className="form-label">
-                                City
+                                Contact
                             </label>
                             <input
-                                id="city"
-                                name="city"
+                                id="contact"
+                                name="contact"
                                 className="form-control"
-                                value={this.state.city}
-                                onChange={this.handleCityChange}
+                                value={this.state.contact}
+                                onChange={this.handleContactChange}
                                 
                             />
                             

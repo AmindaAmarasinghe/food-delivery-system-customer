@@ -16,7 +16,7 @@ function RestuarantList(props) {
     return (
         <ul style={{textDecoration:'none', paddingTop:'50px', listStyle:"none"}}>
             {filteredData.map((item) => (
-                <li  key={item.id}><RestuarantCard id={item.id} title={item.text} address="address" rating={4.5} chooseRestaurant={props.chooseRestaurant}/></li>
+                <li style={{margin:'15px'}} key={item.id}><RestuarantCard id={item.id} title={item.text} address={item.address} menuList={item.menu} chooseRestaurant={props.chooseRestaurant}/></li>
             ))}
         </ul>
     )

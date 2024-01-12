@@ -13,6 +13,7 @@ import CustomerDash from './Home/CustomerDash';
 import Profile from './Home/Profile';
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -21,7 +22,7 @@ function App() {
       
         <Routes>
             <Route path="" element={<Home />} />
-            <Route path="home" element={<CustomerDash />} />
+            <Route path="home" element={<CustomerDash/>} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<RegisterForm />} />
             <Route path="forgot_pwd" element={<ForgotPassword />} />

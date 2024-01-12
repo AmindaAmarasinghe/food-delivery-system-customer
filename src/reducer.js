@@ -7,7 +7,8 @@ export const login = () => {
   };
 };
 const initCartState = { 
-  items:[]
+  items:[],
+  ordered_items:[]
 };
 export default function cartReducer(state = initCartState, action) {
   // The reducer normally looks at the action type field to decide what happens
@@ -20,12 +21,33 @@ export default function cartReducer(state = initCartState, action) {
         ...state, items: [...state.items, action.payload]//payload is a food item
       }
     }
+    case 'ORDER': {
+      
+      return {
+        ...state, ordered_items: [...state.ordered_items,...state.items], items:[]
+      }
+    }
+    case 'UPDATE_ITEM': {
+      console.log(action)
+      const indexU = state.ordered_items.findIndex(item=>item.food_id===action.payload.food_id)
+      return { 
+        ...state, 
+        ordered_items: [
+          ...state.ordered_items.slice(0,indexU),
+          {'food_id':action.payload.food_id,'title':action.payload.title, 'price':action.payload.price, 'order_status': action.payload.order_status, 'payment_status':'','quantity':1 },
+         ...state.ordered_items.slice(indexU+1)
+        ]
+      }
+    }
     case 'REMOVE_ITEM': {
-      console.log(state.items)
-      // return {
-      //   ...state.items.slice(0, action.index),
-      //   ...state.items.slice(action.index + 1)
-      // }
+      const indexU = state.items.findIndex(item=>item.food_id===action.payload.food_id)
+      return { 
+        ...state, 
+        items: [
+          ...state.items.slice(0,indexU),
+          ...state.items.slice(indexU+1)
+        ]
+      }
     }
     default:
       // If this reducer doesn't recognize the action type, or doesn't

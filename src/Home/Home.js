@@ -18,11 +18,11 @@ class Home extends React.Component{
             </div>
             <div className="col-md-6 col-sm-12" style={{backgroundColor: 'rgba(237, 76, 186, 0.4)'}}>
                 <div className="row d-flex justify-center">
-                    <h2>Welcome</h2>
-                    <div><img src="./img/food-delivery.jpg" alt="" className="w-50"/></div>
+                    <h2 style={{margin:'40px'}}>Welcome to your online food delivery service</h2>
+                    <div><img src="./img/welcome_pic.png" alt="" className="w-50" style={{borderRadius:'50px'}}/></div>
                 </div>
-                <div className="row d-flex justify-center">
-                    <div><Link to="/login"><button className="col-12 m-2 buttonCss">Login</button></Link></div>
+                <div className="row d-flex justify-center" style={{marginTop:'40px'}}>
+                    <div className=""><Link to="/login"><button className="col-12 m-2 buttonCss">Login</button></Link></div>
                 </div>
                 <div className="row d-flex justify-center" >
                     <div><Link to="/register"><button className="col-12 m-2 buttonCss" >Sign up</button></Link></div>
