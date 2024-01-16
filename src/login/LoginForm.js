@@ -102,8 +102,8 @@ export function LoginForm(){
             localStorage.setItem('isLogged', true);
             localStorage.setItem('email', email);
             localStorage.setItem('username', username);
-            localStorage.setItem('longitude', '0987');
-            localStorage.setItem('latitude', '9751');
+            localStorage.setItem('longitude', '6.9091248');
+            localStorage.setItem('latitude', '79.8632725');
             localStorage.setItem('customer_id',customer_id)
         }
     }, [isLoggedV]);
@@ -190,7 +190,7 @@ export function LoginForm(){
                                     name="email"
                                     value={email}
                                     className="form-control"
-                                    
+                                    required
                                     onChange={e => setEmail(e.target.value)}
                                     
                                 />
@@ -207,7 +207,7 @@ export function LoginForm(){
                                     name="password"
                                     value={password}
                                     className="form-control"
-                                    
+                                    required
                                     onChange={e => setPassword(e.target.value)}
                                     
                                     type="password"

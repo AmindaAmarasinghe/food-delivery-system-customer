@@ -37,7 +37,7 @@
     "id": "8",
     "text": "My food shop lanka",
     "address": "No. 5, Main street, Gampaha",
-    "menu":"[{\"id\": \"15\",\"title\": \"Burger\", \"price\":\"300\"},{\"id\": \"16\",\"title\": \"Chicken rice & curry\",\"price\":\"490\"}]"
+    "menu":"[{\"id\": \"15\",\"title\": \"Berger\", \"price\":\"300\"},{\"id\": \"16\",\"title\": \"Chicken rice & curry\",\"price\":\"490\"}]"
 }, {
     "id": "10",
     "text": "Layo shop",

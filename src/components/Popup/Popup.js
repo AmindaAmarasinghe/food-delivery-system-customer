@@ -15,6 +15,8 @@ import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import FeedbackForm from './FeedbackForm.js'
+import { Space, Rate, Modal } from 'antd';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 import {store} from '../../index';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Cart({closeFunction, classT, restaurantCart, restaurantCartId}) {
+export default function Cart({closeFunction, classT, restaurantCart, restaurantCartId, setFeedbackFormOpen,setLastOrderId,setLastRiderId}) {
   const [open, setOpen] = React.useState(true);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const itemList = useSelector((data) => data);
@@ -51,8 +53,14 @@ export default function Cart({closeFunction, classT, restaurantCart, restaurantC
             await data.map(entry=>{
               var orderIdnumb = entry.orderId.match(/\d/g);
               orderIdnumb = orderIdnumb.join("")
-               console.log({type:'UPDATE_ORDER', payload:{'order_id':parseInt(orderIdnumb),'order_status':entry.status}})
-               dispatch({type:'UPDATE_ORDER', payload:{'order_id':parseInt(orderIdnumb),'order_status':entry.status}})
+              setLastOrderId(entry.orderId)
+              setLastRiderId(entry.riderId)
+              if(entry.status==="DELIVERED"){
+                localStorage.setItem('lastOrderId',entry.orderId)
+                localStorage.setItem('lastRiderId',entry.riderId)
+              }
+              console.log({type:'UPDATE_ORDER', payload:{'order_id':parseInt(orderIdnumb),'order_status':entry.status}})
+              dispatch({type:'UPDATE_ORDER', payload:{'order_id':parseInt(orderIdnumb),'order_status':entry.status}})
             });
           }
           // await data.map(entry=>{
@@ -214,15 +222,23 @@ export default function Cart({closeFunction, classT, restaurantCart, restaurantC
     
   };
   const deleteItem = (e) => {
-    dispatch({type:'REMOVE_ITEM', payload:{'food_id':1}});
-    console.log(e.target.dataset)
+    dispatch({type:'REMOVE_ITEM', payload:{'food_id':e.target.parentElement.parentElement.dataset.id}});
+    console.log(e.target.parentElement.parentElement.dataset.id)
   };
   const handleClose = () => {
     closeFunction(classT);
+    if(itemList.ordered_items.length > 0 && (itemList.ordered_items.filter((item) => {
+      return item.order_status==="Delivered" || item.order_status ==="DELIVERED";
+    }).length === itemList.ordered_items.length)){
+      setFeedbackFormOpen(true);
+    }else{
+      setFeedbackFormOpen(false);
+    }
   };
 
   return (
     <React.Fragment>
+      
       <Dialog
         fullScreen
         open={open}
@@ -253,17 +269,18 @@ export default function Cart({closeFunction, classT, restaurantCart, restaurantC
             </Button>}
           </Toolbar>
         </AppBar>
+        <h5 className='text-center p-4 bg-info'>Your pending orders</h5>
         {(itemList.items.length==0) && <h5 className='text-center p-4'>No food items to order</h5>}
         
         <List>
         {itemList.items.map((item) => (
-          <>
+          <div data-id={item.food_id}>
           <ListItem button>
-            <ListItemText primary={item.title} secondary={item.price}  />
+            <ListItemText primary={item.title} secondary={"Rs. "+item.price}  />
             {<img style={{cursor:'pointer'}} onClick={deleteItem} data-id={item.id}  src='./img/trash.png' />}
-            </ListItem>
+          </ListItem>
           <Divider />
-          </>
+          </div>
         ))} 
         </List>
         <h5 className='text-center p-4 bg-info'>Your past orders</h5>
@@ -272,11 +289,11 @@ export default function Cart({closeFunction, classT, restaurantCart, restaurantC
           <>
           <ListItem button>
             <ListItemText primary={item.title} secondary={"Rs. "+item.price}  />
-            {<>{(item.order_status==="Ordered" || item.order_status==="ORDERED") && <Button className='col-2 text-dark' style={{backgroundColor:'#e17ff5', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Ordered</Button>}
+            {<>{(item.order_status==="Ordered" || item.order_status==="ORDERED") && <Button className='col-2 text-white' style={{backgroundColor:'#e17ff5', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Ordered</Button>}
             {(item.order_status==="Approved"  || item.order_status==="ACCEPTED") && <Button className='col-2 text-dark' style={{backgroundColor:'#7fe5f5', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Approved</Button>}
             {(item.order_status==="Processing" || item.order_status==="PROCESSING") && <Button className='bg-primary col-2 text-white' style={{marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Processing</Button>}
             {(item.order_status==="On Delivery" || item.order_status==="ON DELIVERY") && <Button className='col-2 text-dark' style={{backgroundColor:'#baf57f', marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >On Delivery</Button>}
-            {(item.order_status==="Delivered" || item.order_status==="DELIVERED") && <Button className='bg-success col-2 text-white' style={{marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Delivered</Button>}</>}
+            {(item.order_status==="Delivered" || item.order_status==="DELIVERED") && <><Button className='bg-success col-2 text-white' style={{marginLeft:'10px', boxShadow: '0 1px 26px 0 rgba(0,0,0,0.2), 0 1px 28px 0 rgba(0,0,0,0.19)'}} >Delivered</Button><PaymentIcon /></>}</>}
           </ListItem>
           <Divider />
           </>
@@ -285,7 +302,7 @@ export default function Cart({closeFunction, classT, restaurantCart, restaurantC
         
         <h4 className='bg-warning text-center'>{response}</h4>
         <h4 className='bg-warning text-center'>{messages}</h4>
-
+      
       </Dialog>
       
     </React.Fragment>

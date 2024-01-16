@@ -1,27 +1,32 @@
 import { Space, Rate, Modal } from 'antd';
 import Button from 'react-bootstrap/Button';
+import { useDispatch, useSelector } from 'react-redux';
 import * as React from 'react';
 const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 
-export default function FeedbackForm({FeedbackFormOpen}){
+export default function FeedbackForm({FeedbackFormOpen, lastOrderId, lastRiderId}){
     const [isModalOpen, setIsModalOpen] = React.useState(FeedbackFormOpen);
     const [value, setValue] = React.useState(3);
     const [feedback, setFeedback] = React.useState("");
+    const dispatch = useDispatch();
+    //console.log(lastOrderId)
     const handleOk = () => {
         setIsModalOpen(false);
         handleSubmit();
+        dispatch({type:'CLEAR'});
     };
     const handleCancel = () => {
         setIsModalOpen(false);
+        dispatch({type:'CLEAR'});
     };
     const handleSubmit = async (e) => {
         try{
             let messageBody=JSON.stringify({
-                orderID:'',
-                riderID:'',
-                delivered:'',
-                feedback:'',
-                stars:5
+                orderID:localStorage.getItem('lastOrderId'),
+                riderID:localStorage.getItem('lastRiderId'),
+                delivered: true,
+                feedback: feedback,
+                stars: value
             });
             console.log(messageBody);
       
@@ -37,6 +42,7 @@ export default function FeedbackForm({FeedbackFormOpen}){
                 });
       
             let resJson = await res.json();
+            console.log(messageBody)
         }catch(err){
             console.log(err)
         }
