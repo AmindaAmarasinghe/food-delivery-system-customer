@@ -1,12 +1,11 @@
 ### Food delivery customer application
 
-``````
-This is a food delivery application which was developed to be used by the customers to place orders for food items they want from a restaurant and see the updates on that order. For the full workflow, restaurnts and riders will interact with the overall process.
-``````
+***This is a food delivery application which was developed to be used by the customers to place orders for food items they want from a restaurant and see the updates on that order. For the full workflow, restaurnts and riders will interact with the overall process.***
+
 <span style="color:yellow">Technologies</span>
 <ul>
     <li>ReactJs</li>
-    <li>Spring boot</li>
+    <li>Spring boot: <a href="https://github.com/AmindaAmarasinghe/food-delivery-system-customer-backend-spring-boot">backend application</a></li>
     <li>Apache Kafka</li>
 </ul>
 <br>
